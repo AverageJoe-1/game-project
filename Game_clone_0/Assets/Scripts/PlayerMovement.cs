@@ -4,31 +4,35 @@ using UnityEngine;
 
 public class PlayerMovement : NetworkIdentity
 {
-    // Initialise Variables
-    [SerializeField] private float speed;
+    // References
     [SerializeField] private new Camera camera;
     [SerializeField] private new Rigidbody2D rigidbody;
+
+    [SerializeField] private float speed;
     private Vector2 input;
     private Vector3 toMouse;
     private new GameObject networkManager;
     private PlayerManager playerManager;
+    private CameraFollow cameraFollow;
 
     // On Spawn
     protected override void OnSpawned()
     {
         base.OnSpawned();
         enabled = isOwner;
-        
+
         if (isOwner)
         {
+            // Camera references
             camera = Camera.main;
+            cameraFollow = (CameraFollow)camera.GetComponent("CameraFollow");
 
             // Get reference to Network Manager and set local player clone as player
             networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
             playerManager = (PlayerManager)networkManager.GetComponent("PlayerManager");
             playerManager.SetReferences(gameObject);
         }
-        
+
     }
 
     void FixedUpdate()
