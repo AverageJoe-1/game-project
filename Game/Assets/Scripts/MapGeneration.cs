@@ -2,18 +2,17 @@ using PurrNet;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System;
 
 public class MapGeneration : NetworkBehaviour
 {
-    int seed;
+    public int seed;
+    public MapConstructor constructor;
 
     private void Start()
     {
         if (isHost)
         {
-            seed = UnityEngine.Random.Range(0, 99999);
+            //
         }
     }
 
@@ -33,29 +32,25 @@ public class MapGeneration : NetworkBehaviour
     }
 
     [ObserversRpc]
-    private void generateMap(int seed, int width = 5, int height = 5, int holes = 3)
+    private void generateMap(int seed, int width = 5, int height = 5, int holes = 5)
     {
-        Debug.Log("Generate Map");
         System.Random random = new System.Random(seed);
         int test = random.Next();
         Debug.Log(test);
 
-        Debug.Log("Blank Graph");
         Graph graph = new Graph((width, height));
 
-        Debug.Log("Connect Graph");
+        
+
+        for(int i = 0; i < holes; i++)
+        {   
+            int index = random.Next(graph.nodes.Count)-1;
+            graph.removeNode(index);
+        }
+
         Graph fullGraph = graph;
         fullGraph.connectGraph();
 
-        Debug.Log("Remove Nodes");
-        for(int i = 0; i < holes; i++)
-        {   
-            int index = random.Next(graph.nodes.Count);
-            graph.removeNode(index);
-            fullGraph.removeNode(index);
-        }
-
-        Debug.Log("Final");
         List<(Node, Node)> edges = fullGraph.edges();
         edges = edges.OrderBy(x => random.Next()).ToList();
         
@@ -71,6 +66,7 @@ public class MapGeneration : NetworkBehaviour
             }
         }
         
+        constructor.Construct(graph, random.Next());
     }
 
 }

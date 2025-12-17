@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine;
 
 public class Node
@@ -14,9 +13,7 @@ public class Node
 
     public void connect(Node node, bool reverse = true)
     {
-        Debug.Log(position.ToString() + " Connect " + node.position.ToString());
         
-
         if (!edges.Contains(node))
         {
             edges.Add(node);
@@ -40,10 +37,10 @@ public class Node
 
     public void connectNeighbours(Graph graph)
     {
-        (int, int)[] neighbours = {(position.Item1+1, position.Item2), 
-                            (position.Item1, position.Item2+1), 
-                            (position.Item1-1, position.Item2), 
-                            (position.Item1, position.Item2-1)};
+        (int, int)[] neighbours = { (position.Item1+1, position.Item2), 
+                                    (position.Item1, position.Item2+1), 
+                                    (position.Item1-1, position.Item2), 
+                                    (position.Item1, position.Item2-1)};
         
 
         foreach((int, int) neighbour in neighbours)

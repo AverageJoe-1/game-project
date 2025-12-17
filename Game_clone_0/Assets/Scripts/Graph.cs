@@ -1,17 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class Graph
 {
-    public List<Node> nodes = new List<Node>();
-    private (int, int) graphDimensions;
+    public List<Node> nodes = new();
 
     // Grid shaped graph
     public Graph((int, int) dimensions)
     {
-        graphDimensions = dimensions;
-
         for (int i = 0; i < dimensions.Item1 * dimensions.Item2; i++)
         {
             (int, int) position = (i % dimensions.Item1, i / dimensions.Item1);
