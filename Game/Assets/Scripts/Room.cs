@@ -50,7 +50,9 @@ public class Room
         
         type = roomTypes[connections].Item1;
         rotation = roomTypes[connections].Item2;
-        Debug.Log(position.ToString()+ " " + type.ToString()+ " " + rotation.ToString());
+        
+        // debug construct per room
+        // Debug.Log(position.ToString()+ " " + type.ToString()+ " " + rotation.ToString());
         
     }
 

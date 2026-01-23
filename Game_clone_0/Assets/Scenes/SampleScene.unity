@@ -242,7 +242,7 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  seed: 7
+  seed: 90
   constructor: {fileID: 1121419543}
 --- !u!4 &1121419542
 Transform:

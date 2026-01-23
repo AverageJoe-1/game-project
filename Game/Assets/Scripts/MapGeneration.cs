@@ -5,14 +5,19 @@ using System.Collections.Generic;
 
 public class MapGeneration : NetworkBehaviour
 {
-    public int seed;
+    public int seed = 0;
+    public int width = 5;
+    public int height = 5;
+    public int holes = 4;
+    public int shortcuts = 10;
+    
     public MapConstructor constructor;
 
     private void Start()
     {
         if (isHost)
         {
-            //
+
         }
     }
 
@@ -20,38 +25,48 @@ public class MapGeneration : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Space Pressed");
-            generateMap(seed);
+            generateArgs();
         }
     }
 
     [ContextMenu("Generate Map")]
-    private void manualGenerate()
+    private void generateArgs()
     {
-        generateMap(seed);
+        seed = (int)(Random.value*int.MaxValue);
+        deleteMap();
+        generateMap(seed, width, height, holes, shortcuts);
+    }
+
+    [ContextMenu("Delete")]
+    private void deleteMap()
+    {
+        if(gameObject.transform.childCount > 0){
+            Destroy(gameObject.transform.GetChild(0).gameObject);
+        }
+        constructor.rooms = new();
     }
 
     [ObserversRpc]
-    private void generateMap(int seed, int width = 5, int height = 5, int holes = 5)
+    private void generateMap(int seed, int width, int height, int holes, int shortcuts)
     {
         System.Random random = new System.Random(seed);
+
         int test = random.Next();
         Debug.Log(test);
 
         Graph graph = new Graph((width, height));
-
-        
+        Graph fullGraph = new Graph((width, height));
+        fullGraph.connectGraph();
 
         for(int i = 0; i < holes; i++)
         {   
-            int index = random.Next(graph.nodes.Count)-1;
-            graph.removeNode(index);
+            Node node = graph.randomNode(random.Next());
+            graph.removeNode(node);
+            fullGraph.removeNode(node);
         }
 
-        Graph fullGraph = graph;
-        fullGraph.connectGraph();
-
         List<(Node, Node)> edges = fullGraph.edges();
+        // Random order list of edges
         edges = edges.OrderBy(x => random.Next()).ToList();
         
         // Randomised Kruskal's Algorithm for maze generation        
@@ -65,7 +80,21 @@ public class MapGeneration : NetworkBehaviour
                 start.connect(end);
             }
         }
-        
+
+        for(int i = 0; i < shortcuts; i++)
+        {   
+            Node node = graph.randomNode(random.Next());
+            Node[] neighbours = node.getNeighbours(graph).OrderBy(x => random.Next()).ToArray();
+            foreach(Node neighbour in neighbours)
+            {
+                if (!node.edges.Contains(neighbour))
+                {
+                    node.connect(neighbour);
+                    Debug.Log("shortcut made: "+ node.position.ToString() + neighbour.position.ToString());
+                    break;
+                }
+            }
+        }
         constructor.Construct(graph, random.Next());
     }
 

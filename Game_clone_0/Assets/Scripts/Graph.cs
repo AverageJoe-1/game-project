@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Graph
 {
@@ -38,7 +41,7 @@ public class Graph
         removeNode(remove);
     }
 
-
+    // Get node by position
     public Node GetNode((int, int) position)
     {
         foreach (Node node in nodes)
@@ -52,22 +55,29 @@ public class Graph
     
     }
 
-    // Returns true if there is a path from start to end
+    public void step(Node node, Graph graph)
+    {
+    }
+
+    // Breadth-first search algorithm, eturns true if there is a path from start to end
     public bool findPath(Node start, Node end)
     {
         List<Node> found = new List<Node>{start};
 
         int size = 1;
         int prevsize = 0;
-
+        
         // Iterate through list, adding all neighbours not in list
         while (size > prevsize)
-        {
-            foreach(Node node in found)
-            {
-                foreach(Node child in node.edges)
+        {   
+            for(int i = 0; i < size; i++)
+            {   
+                if (found[i] == null) return true;
+
+                if (found[i].edges == null) UnityEngine.Debug.Log("edges is null for node");
+                foreach(Node child in found[i].edges)
                 {
-                    // If end is found, return true
+                    // If end node is found, return true
                     if (child == end)
                     {
                         return true;

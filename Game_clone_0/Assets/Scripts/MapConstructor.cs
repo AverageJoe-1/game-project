@@ -12,9 +12,15 @@ public class MapConstructor : MonoBehaviour
     public List<GameObject> type3Prefabs;
     public List<GameObject> type4Prefabs;
     public List<GameObject> type5Prefabs;
+    private GameObject map;
 
     public void Construct(Graph graph, int seed)
     {
+        // Create map as new gameobject
+        map = new GameObject("Map");
+        map.transform.parent = gameObject.transform;
+
+        // Create new random generator from old seed
         System.Random random = new System.Random(seed);
 
         // Create rooms
@@ -52,7 +58,7 @@ public class MapConstructor : MonoBehaviour
         // Instantiate rooms
         foreach (Room room in rooms)
         {
-            room.Spawn(25, transform);
+            room.Spawn(25, gameObject.transform.GetChild(0).transform);
         }
     }
 }

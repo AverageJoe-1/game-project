@@ -13,17 +13,17 @@ public class Node
 
     public void connect(Node node, bool reverse = true)
     {
-        
-        if (!edges.Contains(node))
-        {
-            edges.Add(node);
-        }
+        if(node is not null){
+            if (!edges.Contains(node))
+            {
+                edges.Add(node);
+            }
 
-        if (reverse)
-        {
-            node.connect(this, false);
+            if (reverse)
+            {
+                node.connect(this, false);
+            }
         }
-        
     }
 
     public void disconnect(Node node, bool reverse = true)
@@ -35,20 +35,34 @@ public class Node
         }
     }
 
-    public void connectNeighbours(Graph graph)
+    public Node[] getNeighbours(Graph graph)
     {
-        (int, int)[] neighbours = { (position.Item1+1, position.Item2), 
+        (int, int)[] positions = { (position.Item1+1, position.Item2), 
                                     (position.Item1, position.Item2+1), 
                                     (position.Item1-1, position.Item2), 
                                     (position.Item1, position.Item2-1)};
-        
 
-        foreach((int, int) neighbour in neighbours)
+        List<Node> neighbours = new() {};
+
+        for(int i = 0; i < 4; i++)
         {
-            if (graph.GetNode(neighbour) != null)
+            if (graph.GetNode(positions[i]) is not null)
             {
-                connect(graph.GetNode(neighbour)); 
+                neighbours.Add(graph.GetNode(positions[i]));
             }
+            
+        }
+
+        return neighbours.ToArray();
+    }
+    public void connectNeighbours(Graph graph)
+    {
+        Node[] neighbours = getNeighbours(graph);
+        
+        foreach(Node neighbour in neighbours)
+        {
+
+            connect(neighbour); 
 
         }
     }
