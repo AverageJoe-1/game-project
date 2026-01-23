@@ -49,6 +49,10 @@ public class MapGeneration : NetworkBehaviour
     [ObserversRpc]
     private void generateMap(int seed, int width, int height, int holes, int shortcuts)
     {
+        if (!isHost)
+        {
+            return;
+        }
         System.Random random = new System.Random(seed);
 
         int test = random.Next();

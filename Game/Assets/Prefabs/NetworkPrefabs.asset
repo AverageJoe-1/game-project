@@ -13,10 +13,31 @@ MonoBehaviour:
   m_Name: NetworkPrefabs
   m_EditorClassIdentifier: 
   autoGenerate: 1
-  networkOnly: 1
+  networkOnly: 0
   poolByDefault: 0
-  folder: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
+  folder: {fileID: 102900000, guid: e5c6432d9fb686341bfb57c64c19fe34, type: 3}
   prefabs:
   - prefab: {fileID: 8002954885462858803, guid: 7e7442f20972ce14bb45c78330734471, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - prefab: {fileID: 2411961871522147801, guid: 05df1f0fb17f67e4399e74d8b7f1d0c0, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - prefab: {fileID: 2411961871522147801, guid: 26c1130cbe6487b4f93b9440abc070df, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - prefab: {fileID: 2411961871522147801, guid: 8bf3a8972f0284e40b706053a5f5dfff, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - prefab: {fileID: 2411961871522147801, guid: b962f90e4fe6a55488e99b7ac53a490f, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - prefab: {fileID: 2411961871522147801, guid: bf1df4082e8c3e04484890be76fc6f30, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - prefab: {fileID: 2411961871522147801, guid: de39722ff3089974cad6339b12bf534e, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - prefab: {fileID: 8517728624429269756, guid: bfd3f6295c61517419b4ad7d601c6efa, type: 3}
     pooled: 0
     warmupCount: 5

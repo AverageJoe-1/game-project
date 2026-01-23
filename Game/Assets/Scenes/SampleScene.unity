@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 1121419541}
   - component: {fileID: 1121419543}
   m_Layer: 0
-  m_Name: Map
+  m_Name: MapGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,6 +243,10 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   seed: 90
+  width: 5
+  height: 5
+  holes: 4
+  shortcuts: 10
   constructor: {fileID: 1121419543}
 --- !u!4 &1121419542
 Transform:
