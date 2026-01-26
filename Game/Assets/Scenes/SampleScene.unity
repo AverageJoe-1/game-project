@@ -242,12 +242,14 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  seed: 90
+  seed: 0
   width: 5
   height: 5
-  holes: 4
+  holes: 3
   shortcuts: 10
   extracts: 5
+  spawns: 4
+  spawnLength: 1
   constructor: {fileID: 1121419543}
 --- !u!4 &1121419542
 Transform:
@@ -312,6 +314,8 @@ MonoBehaviour:
   - {fileID: 2411961871522147801, guid: fe21371edebdbf649a459bf42952438e, type: 3}
   type5ExtractPrefabs:
   - {fileID: 2411961871522147801, guid: e8dc3665682e3eb408f1c7b7097dcc47, type: 3}
+  spawnPrefabs:
+  - {fileID: 2411961871522147801, guid: 6bcc0beaafe89b147b07d33a63d9b870, type: 3}
   map: {fileID: 8517728624429269756, guid: bfd3f6295c61517419b4ad7d601c6efa, type: 3}
 --- !u!1 &1121701279
 GameObject:

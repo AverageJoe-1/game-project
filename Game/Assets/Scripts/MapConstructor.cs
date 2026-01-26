@@ -28,6 +28,10 @@ public class MapConstructor : MonoBehaviour
     public List<GameObject> type4ExtractPrefabs;
     public List<GameObject> type5ExtractPrefabs;
 
+    public List<GameObject> spawnPrefabs;
+
+    
+
     
     public GameObject map;
 
@@ -70,6 +74,9 @@ public class MapConstructor : MonoBehaviour
                     case 5:
                         room.prefab = type5Prefabs[random.Next(type5Prefabs.Count)];
                         break;
+                    default:
+                        room.prefab = type0Prefabs[random.Next(type0Prefabs.Count)];
+                        break;
                 }
             }
             // Centre rooms
@@ -94,6 +101,9 @@ public class MapConstructor : MonoBehaviour
                         break;
                     case 5:
                         room.prefab = type5CentrePrefabs[random.Next(type5CentrePrefabs.Count)];
+                        break;
+                    default:
+                        room.prefab = type0CentrePrefabs[random.Next(type0CentrePrefabs.Count)];
                         break;
                 }
             }
@@ -120,8 +130,43 @@ public class MapConstructor : MonoBehaviour
                     case 5:
                         room.prefab = type5ExtractPrefabs[random.Next(type5ExtractPrefabs.Count)];
                         break;
+                    default:
+                        room.prefab = type0ExtractPrefabs[random.Next(type0ExtractPrefabs.Count)];
+                        break;
                 }
             }
+            else if (room.tags.Contains("Spawn"))
+            {
+                switch (room.type)
+                {
+                    case 0:
+                        room.prefab = type0Prefabs[random.Next(type0Prefabs.Count)];
+                        break;
+                    case 1:
+                        room.prefab = spawnPrefabs[random.Next(spawnPrefabs.Count)];
+                        break;
+                    case 2:
+                        room.prefab = type2Prefabs[random.Next(type2Prefabs.Count)];
+                        break;
+                    case 3:
+                        room.prefab = type3Prefabs[random.Next(type3Prefabs.Count)];
+                        break;
+                    case 4:
+                        room.prefab = type4Prefabs[random.Next(type4Prefabs.Count)];
+                        break;
+                    case 5:
+                        room.prefab = type5Prefabs[random.Next(type5Prefabs.Count)];
+                        break;
+                    default:
+                        room.prefab = type0Prefabs[random.Next(type0Prefabs.Count)];
+                        break;
+                }
+            }
+            else
+            {
+                room.prefab = type0Prefabs[random.Next(type0Prefabs.Count)];
+            }
+
         }
 
         // Instantiate rooms

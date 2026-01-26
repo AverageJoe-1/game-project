@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Node
 {
@@ -55,6 +57,7 @@ public class Node
 
         return neighbours.ToArray();
     }
+
     public void connectNeighbours(Graph graph)
     {
         Node[] neighbours = getNeighbours(graph);
@@ -65,5 +68,26 @@ public class Node
             connect(neighbour); 
 
         }
+    }
+
+    public Node step(Graph graph, Random random)
+    {
+        (int, int)[] positions = { (position.Item1+1, position.Item2), 
+                                    (position.Item1, position.Item2+1), 
+                                    (position.Item1-1, position.Item2), 
+                                    (position.Item1, position.Item2-1)};
+        positions = positions.OrderBy(x => random.Next()).ToArray();
+
+        foreach((int, int) neighbour in positions)
+        {
+            if(graph.GetNode(neighbour) is null)
+            {
+                Node newNode = graph.addNode(neighbour);
+                connect(newNode);
+                return newNode;
+                
+            }
+        }
+        return null;
     }
 }

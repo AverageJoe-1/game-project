@@ -1,21 +1,31 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Graph
 {
+    public (int, int) size;
     public List<Node> nodes = new();
 
     // Grid shaped graph
     public Graph((int, int) dimensions)
     {
+        size = dimensions;
         for (int i = 0; i < dimensions.Item1 * dimensions.Item2; i++)
         {
             (int, int) position = (i % dimensions.Item1, i / dimensions.Item1);
             nodes.Add(new Node(position));
         }
+    }
+
+    public Node addNode((int, int) position)
+    {
+        Node node = new(position);
+        nodes.Add(node);
+        return node;
     }
 
     public void connectGraph()

@@ -2,6 +2,9 @@ using PurrNet;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class MapGeneration : NetworkBehaviour
 {
@@ -11,6 +14,8 @@ public class MapGeneration : NetworkBehaviour
     public int holes = 4;
     public int shortcuts = 10;
     public int extracts = 5;
+    public int spawns = 4;
+    public int spawnLength = 3;
     
     public MapConstructor constructor;
 
@@ -34,8 +39,8 @@ public class MapGeneration : NetworkBehaviour
     private void generateArgs()
     {
         seed = (int)(Random.value*int.MaxValue);
-        deleteMap();
-        generateMap(seed, width, height, holes, shortcuts);
+        deleteMap();    
+        generateMap(seed, width, height, holes, shortcuts, extracts, spawns, spawnLength);
     }
 
     [ContextMenu("Delete")]
@@ -48,7 +53,7 @@ public class MapGeneration : NetworkBehaviour
     }
 
     [ObserversRpc]
-    private void generateMap(int seed, int width, int height, int holes, int shortcuts)
+    private void generateMap(int seed, int width, int height, int holes, int shortcuts, int extracts, int spawns, int spawnLength)
     {
         if (!isHost)
         {
@@ -98,15 +103,24 @@ public class MapGeneration : NetworkBehaviour
                 if (!node.edges.Contains(neighbour))
                 {
                     node.connect(neighbour);
-                    Debug.Log("shortcut made: "+ node.position.ToString() + neighbour.position.ToString());
                     break;
                 }
             }
         }
 
         // Add centre
-        Node centre = graph.randomNode(random.Next());
-        centre.tags.Add("Centre");
+        bool centred = false;
+        while (!centred)
+        {
+            Node centre = graph.randomNode(random.Next());
+            if(centre.position.Item1 > 0 && centre.position.Item1 < graph.size.Item1 && centre.position.Item2 > 0 && centre.position.Item2 < graph.size.Item2)
+            {
+                centre.tags.Add("Centre");
+                centred = true;
+            }
+        }
+
+        
         
         // Add extracts
         for(int i = 0; i < extracts; i++)
@@ -121,6 +135,41 @@ public class MapGeneration : NetworkBehaviour
                 i--;
             }
         }
+
+        // Create spawn branches
+        for(int i = 0; i < spawns+1; i++)
+        {
+            // Get a random node along the edge
+            Node node = graph.randomNode(random.Next());
+            if(node.position.Item1 > 0 && node.position.Item1 < graph.size.Item1 && node.position.Item2 > 0 && node.position.Item2 < graph.size.Item2)
+            {
+                i--;
+                continue;
+            }
+            else
+            {
+                Node step = node.step(graph, random);
+                if(step is null)
+                {
+                    i--;
+                    graph.removeNode(step);
+                    continue;
+                }
+                else
+                {
+                    for(int j = 0; j < spawnLength-1; j++)
+                    {
+                        step = step.step(graph, random);
+                    }
+                    step.tags.Add("Spawn");
+                    
+                }
+            }
+
+        }
+
+        
+        
 
 
         // Pass graph off to constructor

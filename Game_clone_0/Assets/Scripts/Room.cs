@@ -50,11 +50,15 @@ public class Room
                 connections += 8;
             }
         }
-        
-        Debug.Log(connections);
-        type = roomTypes[connections].Item1;
-        rotation = roomTypes[connections].Item2;
-        
+        try{
+            type = roomTypes[connections].Item1;
+            rotation = roomTypes[connections].Item2;
+        }
+        catch
+        {
+            type = 0;
+            rotation = 0;
+        }
         // debug construct per room
         // Debug.Log(position.ToString()+ " " + type.ToString()+ " " + rotation.ToString());
         
