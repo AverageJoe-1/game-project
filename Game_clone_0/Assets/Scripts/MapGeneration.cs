@@ -10,6 +10,7 @@ public class MapGeneration : NetworkBehaviour
     public int height = 5;
     public int holes = 4;
     public int shortcuts = 10;
+    public int extracts = 5;
     
     public MapConstructor constructor;
 
@@ -53,15 +54,17 @@ public class MapGeneration : NetworkBehaviour
         {
             return;
         }
+        // Initialise random number generator
         System.Random random = new System.Random(seed);
-
         int test = random.Next();
         Debug.Log(test);
 
+        // Create blank graphs
         Graph graph = new Graph((width, height));
         Graph fullGraph = new Graph((width, height));
         fullGraph.connectGraph();
 
+        // Create holes
         for(int i = 0; i < holes; i++)
         {   
             Node node = graph.randomNode(random.Next());
@@ -69,11 +72,11 @@ public class MapGeneration : NetworkBehaviour
             fullGraph.removeNode(node);
         }
 
-        List<(Node, Node)> edges = fullGraph.edges();
         // Random order list of edges
+        List<(Node, Node)> edges = fullGraph.edges();
         edges = edges.OrderBy(x => random.Next()).ToList();
         
-        // Randomised Kruskal's Algorithm for maze generation        
+        // Randomised Kruskal's Algorithm, turn map into maze       
         foreach ((Node, Node) connection in edges)
         {
             Node start = graph.GetNode(connection.Item1.position);
@@ -85,6 +88,7 @@ public class MapGeneration : NetworkBehaviour
             }
         }
 
+        // Create shortcuts
         for(int i = 0; i < shortcuts; i++)
         {   
             Node node = graph.randomNode(random.Next());
@@ -99,6 +103,27 @@ public class MapGeneration : NetworkBehaviour
                 }
             }
         }
+
+        // Add centre
+        Node centre = graph.randomNode(random.Next());
+        centre.tags.Add("Centre");
+        
+        // Add extracts
+        for(int i = 0; i < extracts; i++)
+        {
+            Node extract = graph.randomNode(random.Next());
+            if (!extract.tags.Contains("Centre"))
+            {
+                extract.tags.Add("Extract");
+            }
+            else
+            {
+                i--;
+            }
+        }
+
+
+        // Pass graph off to constructor
         constructor.Construct(graph, random.Next());
     }
 

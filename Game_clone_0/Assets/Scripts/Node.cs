@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Node
 {
     public (int, int) position;
-    public List<Node> edges = new List<Node>();
+    public List<Node> edges = new();
+    public List<string> tags = new();
 
     public Node((int, int) nodePosition)
     {

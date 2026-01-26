@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Room
 {
@@ -6,6 +7,7 @@ public class Room
     public byte type;
     public int rotation;
     public (int, int) position;
+    public List<string> tags = new();
     public Vector3 location;
     public GameObject prefab;
     private (byte, int)[] roomTypes =
@@ -20,6 +22,7 @@ public class Room
     {
         position = node.position;
         location = new Vector3(node.position.Item1, node.position.Item2);
+        tags = node.tags;
 
         foreach (Node connection in node.edges)
         {

@@ -287,6 +287,7 @@ MonoBehaviour:
   - {fileID: 2411961871522147801, guid: 8bf3a8972f0284e40b706053a5f5dfff, type: 3}
   type5Prefabs:
   - {fileID: 2411961871522147801, guid: bf1df4082e8c3e04484890be76fc6f30, type: 3}
+  map: {fileID: 8517728624429269756, guid: bfd3f6295c61517419b4ad7d601c6efa, type: 3}
 --- !u!1 &1121701279
 GameObject:
   m_ObjectHideFlags: 0
