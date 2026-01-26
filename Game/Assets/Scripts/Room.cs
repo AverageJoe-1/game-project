@@ -51,6 +51,7 @@ public class Room
             }
         }
         
+        Debug.Log(connections);
         type = roomTypes[connections].Item1;
         rotation = roomTypes[connections].Item2;
         
